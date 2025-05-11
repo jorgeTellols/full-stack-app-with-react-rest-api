@@ -1,9 +1,7 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      nodejs: 20
+  pre_build:
     commands:
       - echo Installing tools...
       - yum update -y
@@ -12,9 +10,6 @@ phases:
       - npm install -g pm2
       - curl -sL https://dl.yarnpkg.com/rpm/yarn.repo -o /etc/yum.repos.d/yarn.repo
       - yum install -y yarn
-
-  pre_build:
-    commands:
       - echo Cloning repository...
       - git clone https://github.com/alexhippo/full-stack-app-with-react-rest-api.git
 
