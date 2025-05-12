@@ -15,4 +15,4 @@ phases:
       - sudo yarn build
 artifacts:
   files:
-    - 'build/*'
+    - '**/*'
