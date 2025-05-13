@@ -8,9 +8,9 @@ phases:
       - mkdir /etc/yum.repos.d/
       - sudo curl -sL https://dl.yarnpkg.com/rpm/yarn.repo -o /etc/yum.repos.d/yarn.repo
       - sudo apt-get install yarn -y
-      - cd client
+      - cd api
       - npm install
-      - cd ../api
+      - cd ../client
       - npm install
   build:
     commands:
