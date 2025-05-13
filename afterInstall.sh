@@ -1,4 +1,6 @@
 #!/bin/bash
+echo "PWD: $(pwd)"
+ls -l
 cd build
 pm2 serve . 3000
 pm2 save
