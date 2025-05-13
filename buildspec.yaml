@@ -10,6 +10,8 @@ phases:
       - sudo apt-get install yarn -y
       - cd client
       - npm install
+      - cd ../api
+      - npm install
   build:
     commands:
       - sudo yarn build
