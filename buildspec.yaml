@@ -13,7 +13,7 @@ phases:
   build:
     commands:
       - sudo yarn build
-      - mv build ./build
+      - mv build ../build
 artifacts:
   files:
     - 'build/**/*'               
