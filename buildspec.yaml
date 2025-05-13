@@ -13,7 +13,13 @@ phases:
   build:
     commands:
       - sudo yarn build
+  post_build:
+    commands:
+      - mv client/build ./build
 artifacts:
   files:
-    # - 'client/build'
-    - "**/*"
+    - 'build/**/*'               
+    - 'api/**/*'                 
+    - 'appspec.yml'              
+    - 'beforeInstall.sh'         
+    - 'afterInstall.sh'  
