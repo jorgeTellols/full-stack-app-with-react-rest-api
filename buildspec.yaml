@@ -12,10 +12,12 @@ phases:
       - npm install
   build:
     commands:
+      - cd client
       - sudo yarn build
   post_build:
     commands:
-      - mv client/build ./build
+      - cd client
+      - mv build ./build
 artifacts:
   files:
     - 'build/**/*'               
