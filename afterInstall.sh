@@ -1,5 +1,6 @@
 #!/bin/bash
-pm2 serve . 3000 --name ./build
+cd build
+pm2 serve . 80
 pm2 save
 sudo pm2 startup
 # cd  ~/api
