@@ -3,5 +3,5 @@ cd ~/build
 sudo pm2 serve . 80
 pm2 save
 sudo pm2 startup
-cd  ~/api
-sudo npm run start &
+# cd  ~/api
+# sudo npm run start &
