@@ -4,7 +4,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const { sequelize } = require('./models');
-const cors = require('cors'); // <- Descomentado
+const cors = require('cors');
 
 // variable to enable global error logging
 const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
@@ -15,24 +15,16 @@ const courseRouter = require('./routes/courses');
 // create the Express app
 const app = express();
 
-// CORS configuration
-const corsOptions = {
-  origin: 'http://18.101.187.141', // frontend origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-};
-
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Enable preflight requests
-
-// setup morgan for HTTP request logging
+// setup morgan which gives us http request logging
 app.use(morgan('dev'));
 
-// setup Express to work with JSON
+// set up cors 
+app.use(cors());
+
+// set up Express to work with JSON
 app.use(express.json());
 
-// friendly greeting for the root route
+// setup a friendly greeting for the root route
 app.get('/', (req, res) => {
   res.json({
     message: 'Welcome to the REST API project!',
@@ -50,7 +42,7 @@ app.use((req, res) => {
   });
 });
 
-// global error handler
+// setup a global error handler
 app.use((err, req, res, next) => {
   if (enableGlobalErrorLogging) {
     console.error(`Global error handler: ${JSON.stringify(err.stack)}`);
