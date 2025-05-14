@@ -1,5 +1,5 @@
 const config = {
-  apiBaseUrl: 'http://localhost:5000/api',
+  apiBaseUrl: `${window.location.protocol}//${window.location.hostname}:5000/api`,
 };
 
 export default config;
