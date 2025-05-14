@@ -4,7 +4,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const { sequelize } = require('./models');
-const cors = require('cors');
+//const cors = require('cors');
 
 // variable to enable global error logging
 const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
@@ -19,19 +19,7 @@ const app = express();
 app.use(morgan('dev'));
 
 // set up cors 
-app.use(cors({
-  origin: 'http://51.94.186.248/',
-  credentials: true, // Si necesitas cookies o autenticación con credenciales
-}));
-
-app.options('*', cors());  // Permite que todas las rutas manejen OPTIONS correctamente
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://51.94.186.248');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
+//app.use(cors());
 
 // set up Express to work with JSON
 app.use(express.json());
