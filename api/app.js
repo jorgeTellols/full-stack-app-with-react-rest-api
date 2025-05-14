@@ -20,7 +20,7 @@ app.use(morgan('dev'));
 
 // set up cors 
 app.use(cors({
-  origin: '*', 
+  origin: `http://18.101.101.59:5000`, 
 }));
 
 // set up Express to work with JSON
