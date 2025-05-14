@@ -19,7 +19,9 @@ const app = express();
 app.use(morgan('dev'));
 
 // set up cors 
-app.use(cors());
+app.use(cors({
+  origin: '*', 
+}));
 
 // set up Express to work with JSON
 app.use(express.json());
