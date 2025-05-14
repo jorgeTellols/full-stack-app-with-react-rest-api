@@ -19,9 +19,9 @@ const app = express();
 app.use(morgan('dev'));
 
 // set up cors 
-app.use(cors({
-  origin: `http://51.94.186.248`, 
-}));
+app.use(cors());
+
+app.options('*', cors());  // Permite que todas las rutas manejen OPTIONS correctamente
 
 // set up Express to work with JSON
 app.use(express.json());
