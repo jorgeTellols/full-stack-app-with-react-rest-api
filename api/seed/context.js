@@ -1,11 +1,21 @@
 'use strict';
 
-const sqlite3 = require('sqlite3');
+require('dotenv').config(); // si usas .env
+const mysql = require('mysql2/promise');
 
 class Context {
-  constructor(filename, enableLogging) {
-    this.db = new sqlite3.Database(filename);
+  constructor(enableLogging = false) {
     this.enableLogging = enableLogging;
+
+    this.pool = mysql.createPool({
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
+      waitForConnections: true,
+      connectionLimit: 10,
+      queueLimit: 0
+    });
   }
 
   static prepareQuery(text) {
@@ -18,36 +28,33 @@ class Context {
     console.info(`Running query: "${text}", with params: ${JSON.stringify(params)}`);
   }
 
-  execute(text, ...params) {
+  async execute(text, ...params) {
     const sql = Context.prepareQuery(text);
     if (this.enableLogging) {
       Context.log(sql, params);
     }
-    return new Promise((resolve, reject) => {
-      this.db.run(sql, params, (err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
-      });
-    });
+
+    const conn = await this.pool.getConnection();
+    try {
+      await conn.execute(sql, params);
+    } finally {
+      conn.release();
+    }
   }
 
-  query(text, ...params) {
+  async query(text, ...params) {
     const sql = Context.prepareQuery(text);
     if (this.enableLogging) {
       Context.log(sql, params);
     }
-    return new Promise((resolve, reject) => {
-      this.db.all(sql, params, (err, data) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(data);
-        }
-      });
-    });
+
+    const conn = await this.pool.getConnection();
+    try {
+      const [rows] = await conn.execute(sql, params);
+      return rows;
+    } finally {
+      conn.release();
+    }
   }
 
   async retrieve(text, ...params) {
@@ -56,33 +63,27 @@ class Context {
 
   async retrieveSingle(text, ...params) {
     const data = await this.query(text, ...params);
-    let record;
-    if (data) {
-      if (data.length === 1) {
-        [record] = data;
-      } else if (data.length > 1) {
-        throw new Error('Unexpected number of rows encountered.');
-      }
+    if (data && data.length === 1) {
+      return data[0];
+    } else if (data.length > 1) {
+      throw new Error('Unexpected number of rows encountered.');
     }
-    return record;
+    return null;
   }
 
   async retrieveValue(text, ...params) {
     const data = await this.query(text, ...params);
-    let record;
-    let value;
-    if (data && data.length === 1) {
-      [record] = data;
-      const keys = Object.keys(record);
-      if (keys.length === 1) {
-        value = record[keys[0]];
-      } else {
-        throw new Error('Unexpected number of values encountered.');
-      }
-    } else {
+    if (data.length !== 1) {
       throw new Error('Unexpected number of rows encountered.');
     }
-    return value;
+
+    const record = data[0];
+    const keys = Object.keys(record);
+    if (keys.length !== 1) {
+      throw new Error('Unexpected number of values encountered.');
+    }
+
+    return record[keys[0]];
   }
 }
 
