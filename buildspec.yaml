@@ -17,8 +17,8 @@ phases:
       - echo "Obteniendo variables desde SSM y RDS..."
 
       # Leer variables desde Parameter Store
-      - DB_USER=$(aws ssm get-parameter --name "/miapp/DB_USER" --query "Parameter.Value" --output text)
-      - DB_PASSWORD=$(aws ssm get-parameter --name "/miapp/DB_PASSWORD" --with-decryption --query "Parameter.Value" --output text)
+      - DB_USER=$(aws ssm get-parameter --name "DB_USER" --query "Parameter.Value" --output text)
+      - DB_PASSWORD=$(aws ssm get-parameter --name "DB_PASSWORD" --with-decryption --query "Parameter.Value" --output text)
 
       # Obtener el endpoint RDS por ID
       - DB_HOST=$(aws rds describe-db-instances --db-instance-identifier myrdsinstance --query "DBInstances[0].Endpoint.Address" --output text)
