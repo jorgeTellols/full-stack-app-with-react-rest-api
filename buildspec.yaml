@@ -11,7 +11,7 @@ phases:
       - sudo apt-get install yarn -y
       - cd api
       - npm install dotenv
-      . npm install
+      - npm install
       - cd ../client
       - npm install
   
