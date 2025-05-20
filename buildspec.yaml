@@ -23,6 +23,10 @@ phases:
       # Obtener el endpoint RDS por ID
       - DB_HOST=$(aws rds describe-db-instances --db-instance-identifier myrdsinstance --query "DBInstances[0].Endpoint.Address" --output text)
 
+      # Donde estoy
+      - pwd
+      - ls
+      
       # Crear el archivo .env en /api/
       - |
         echo "Creando archivo .env en /api/"
