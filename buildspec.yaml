@@ -23,21 +23,16 @@ phases:
       # Obtener el endpoint RDS por ID
       - DB_HOST=$(aws rds describe-db-instances --db-instance-identifier myrdsinstance --query "DBInstances[0].Endpoint.Address" --output text)
 
-      # Donde estoy
-      - pwd
-      - ls
-      
       # Crear el archivo .env en /api/
       - |
         echo "Creando archivo .env en /api/"
-        cat <<EOF > ~/api/.env
+        cat <<EOF > ../api/.env
         DB_USER=$DB_USER
         DB_PASSWORD=$DB_PASSWORD
         DB_HOST=$DB_HOST
         EOF
   build:
     commands:
-      - cd ~/client
       - sudo yarn build
       - mv build ../build
 artifacts:
