@@ -9,7 +9,9 @@ phases:
       - sudo curl -sL https://dl.yarnpkg.com/rpm/yarn.repo -o /etc/yum.repos.d/yarn.repo
       - sudo apt-get install -y awscli
       - sudo apt-get install yarn -y
-      - cd client
+      - cd api
+      - npm install dotenv
+      - cd ../client
       - npm install
   
   pre_build:
