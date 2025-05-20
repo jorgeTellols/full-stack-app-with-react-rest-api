@@ -7,11 +7,24 @@ phases:
     commands:
       - mkdir /etc/yum.repos.d/
       - sudo curl -sL https://dl.yarnpkg.com/rpm/yarn.repo -o /etc/yum.repos.d/yarn.repo
+      - npm install -g aws-cli
       - sudo apt-get install yarn -y
+    pre_build:
+      commands:
+      - DB_USER=$(aws ssm get-parameter --name "/miapp/DB_USER" --query "Parameter.Value" --output text)
+      - DB_PASSWORD=$(aws ssm get-parameter --name "/miapp/DB_PASSWORD" --with-decryption --query "Parameter.Value" --output text)
+      - DB_HOST=$(aws rds describe-db-instances --db-instance-identifier myrdsinstance --query "DBInstances[0].Endpoint.Address" --output text)
+      - |
+        echo "Creando archivo .env en /api/"
+        cat <<EOF > api/.env
+        DB_USER=$DB_USER
+        DB_PASSWORD=$DB_PASSWORD
+        DB_HOST=$DB_HOST
+        EOF
+    build:
+    commands:
       - cd client
       - npm install
-  build:
-    commands:
       - sudo yarn build
       - mv build ../build
 artifacts:
