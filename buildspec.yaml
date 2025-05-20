@@ -19,7 +19,7 @@ phases:
       # Leer variables desde Parameter Store
       - DB_USER=$(aws ssm get-parameter --name "DB_USER" --query "Parameter.Value" --output text)
       - DB_PASSWORD=$(aws ssm get-parameter --name "DB_PASSWORD" --with-decryption --query "Parameter.Value" --output text)
-
+      - DB_NAME="myapp"
       # Obtener el endpoint RDS por ID
       - DB_HOST=$(aws rds describe-db-instances --db-instance-identifier myrdsinstance --query "DBInstances[0].Endpoint.Address" --output text)
 
@@ -30,6 +30,7 @@ phases:
         DB_USER=$DB_USER
         DB_PASSWORD=$DB_PASSWORD
         DB_HOST=$DB_HOST
+        DB_NAME=$DB_NAME
         EOF
   build:
     commands:
