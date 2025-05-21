@@ -19,7 +19,7 @@ phases:
       - echo "Obteniendo variables desde SSM y RDS..."
 
       # Leer variables desde Parameter Store
-      - DB_USER=$(aws ssm get-parameter --name "DB_USER" --query "Parameter.Value" --output text)
+      - DB_USERNAME=$(aws ssm get-parameter --name "DB_USER" --query "Parameter.Value" --output text)
       - DB_PASSWORD=$(aws ssm get-parameter --name "DB_PASSWORD" --with-decryption --query "Parameter.Value" --output text)
       - DB_NAME="myapp"
       # Obtener el endpoint RDS por ID
@@ -29,7 +29,7 @@ phases:
       - |
         echo "Creando archivo .env en /api/"
         cat <<EOF > ../api/.env
-        DB_USER=$DB_USER
+        DB_USERNAME=$DB_USERNAME
         DB_PASSWORD=$DB_PASSWORD
         DB_HOST=$DB_HOST
         DB_NAME=$DB_NAME
