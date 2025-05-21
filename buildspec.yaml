@@ -10,8 +10,6 @@ phases:
       - sudo apt-get install -y awscli
       - sudo apt-get install yarn -y
       - cd api
-      - npm install dotenv
-      - npm install --save-dev nodemon
       - npm install
       - cd ../client
       - npm install
