@@ -45,3 +45,4 @@ artifacts:
     - 'appspec.yml'              
     - 'beforeInstall.sh'         
     - 'afterInstall.sh'  
+    - 'proyecto-final.conf'
