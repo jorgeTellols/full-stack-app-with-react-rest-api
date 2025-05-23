@@ -22,8 +22,9 @@ phases:
       - DB_USERNAME=$(aws ssm get-parameter --name "DB_USER" --query "Parameter.Value" --output text)
       - DB_PASSWORD=$(aws ssm get-parameter --name "DB_PASSWORD" --with-decryption --query "Parameter.Value" --output text)
       - DB_NAME="myapp"
-      # Obtener el endpoint RDS por ID
-      - DB_HOST=$(aws rds describe-db-instances --db-instance-identifier myrdsinstance --query "DBInstances[0].Endpoint.Address" --output text)
+      # Obtener la IP privada vinculada a la RDS por el nombre del SG de su ENI
+      - DB_HOST=$(aws ec2 describe-network-interfaces --filters Name=group-name,Values="proyecto_final_rds_SG" Name=description,Values="RDSNetworkInterface*" --query 'NetworkInterfaces[0].PrivateIpAddress' --output text)
+      - DB_HOST="${DB_HOST}:3306"
 
       # Crear el archivo .env en /api/
       - |
