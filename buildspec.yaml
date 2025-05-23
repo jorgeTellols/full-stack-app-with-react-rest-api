@@ -44,4 +44,5 @@ artifacts:
     - 'api/**/*'                 
     - 'appspec.yml'              
     - 'beforeInstall.sh'         
-    - 'afterInstall.sh'  
+    - 'afterInstall.sh'
+    - 'proyecto-final.conf'  
